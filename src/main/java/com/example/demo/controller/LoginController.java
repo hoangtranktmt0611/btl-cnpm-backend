@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
+import com.example.demo.modal.User;
 import com.example.demo.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +32,7 @@ public class LoginController {
         }
 
         res.put("success", true);
+        res.put("ID", user.getId());
         res.put("role", user.getRole());
         res.put("username", user.getUsername());
         return res;

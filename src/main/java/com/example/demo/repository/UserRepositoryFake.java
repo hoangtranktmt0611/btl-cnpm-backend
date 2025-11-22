@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.User;
+import com.example.demo.modal.User;
 import org.springframework.stereotype.Component;
 import java.util.*;
 
@@ -13,6 +13,8 @@ public class UserRepositoryFake {
         users.add(new User(1L, "admin", "admin123", "ADMIN", false));
         users.add(new User(2L, "hoang", "123456", "STUDENT", false));
         users.add(new User(3L, "tutor1", "tutorpass", "TUTOR", false));
+        users.add(new User(4L, "tutor2", "tutorpass2", "TUTOR", false));
+
     }
 
     public User findByUsername(String username) {
