@@ -9,6 +9,7 @@ public class Sinhvien {
     private String email;
     private int progress;    // tiến độ 0-100
     private List<Classes> classes;
+    private boolean isRegistered = false;
 
     public Sinhvien() {}
 
@@ -39,4 +40,7 @@ public class Sinhvien {
 
     public List<Classes> getClasses() { return classes; }
     public void setClasses(List<Classes> classes) { this.classes = classes; }
+
+    public boolean isRegistered() { return isRegistered; }
+    public void setRegistered(boolean registered) { isRegistered = registered; }
 }

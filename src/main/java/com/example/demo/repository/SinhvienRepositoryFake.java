@@ -37,4 +37,10 @@ public class SinhvienRepositoryFake {
     public Sinhvien getSinhvienByUserId(Long userId) {
         return sinhVienDB.get(userId);
     }
+    public void save(Sinhvien sv) {
+        if (sv.getId() == null) {
+            sv.setId(new Random().nextLong());
+        }
+        sinhVienDB.put(sv.getId(), sv);
+    }
 }
