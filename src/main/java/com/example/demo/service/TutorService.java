@@ -15,22 +15,40 @@ public class TutorService {
     private TutorRepositoryFake tutorRepo;
 
     // Trả về list lớp theo yêu cầu frontend
-    public List<Map<String, String>> getListClass(Long userId) {
+    // CẬP NHẬT: Trả về trực tiếp List<Classes> thay vì List<Map>
+    public List<Classes> getListClass(Long userId) {
         Tutor tutor = tutorRepo.getTutorByUserId(userId);
-        List<Map<String, String>> res = new ArrayList<>();
-
+        
+        // Kiểm tra null an toàn
         if (tutor != null && tutor.getClasses() != null) {
-            for (Classes c : tutor.getClasses()) {
-                Map<String, String> cls = new HashMap<>();
-                cls.put("courseName", c.getCourseName());
-                cls.put("courseCode", c.getCourseCode());
-                cls.put("classId", c.getCourseCode().replaceAll("[()]", "")); // VD: CO3001
-                cls.put("tutorName", c.getTutorName());
-                cls.put("tutorMSCB", c.getTutorMSCB());
-                res.add(cls);
-            }
+            return tutor.getClasses(); // Trả về nguyên danh sách object
         }
+        
+        return new ArrayList<>(); // Trả về list rỗng nếu không có dữ liệu
+    }
 
-        return res;
+    // Hàm tạo lớp mới
+    public Classes createNewClass(Classes newClass, Long userId) {
+        Classes tutor_class= new Classes(newClass);
+        Tutor tutor=tutorRepo.getTutorByUserId(userId);
+        tutor.addClasses(tutor_class);
+        tutorRepo.save(tutor);
+        return tutor_class;
+    }
+
+    // Các hàm profile giữ nguyên
+    public Tutor getTutorProfile(Long userId) {
+        return tutorRepo.getTutorByUserId(userId);
+    }
+
+    public Tutor updateTutorProfile(Long userId, Tutor updatedInfo) {
+        Tutor tutor = tutorRepo.getTutorByUserId(userId);
+        if (tutor != null) {
+            if (updatedInfo.getName() != null) tutor.setName(updatedInfo.getName());
+            if (updatedInfo.getEmail() != null) tutor.setEmail(updatedInfo.getEmail());
+            if (updatedInfo.getMscb() != null) tutor.setMscb(updatedInfo.getMscb());
+            return tutor;
+        }
+        return null;
     }
 }

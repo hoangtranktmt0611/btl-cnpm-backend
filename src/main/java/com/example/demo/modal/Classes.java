@@ -1,5 +1,6 @@
 package com.example.demo.modal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Classes {
@@ -9,15 +10,40 @@ public class Classes {
     private String tutorName;
     private String tutorMSCB;
 
+    // --- Các trường mới bổ sung ---
+    private String term;        // Học kỳ (VD: HK231)
+    private int maxStudent;     // Sĩ số tối đa
+    private int totalStudent;   // Sĩ số hiện tại
+
     private List<Lecture> lectures;
     private List<Quiz> quizzes;
     private List<Lich> schedule;
     private List<Sinhvien> students;
 
-    public Classes() {}
+    public Classes() {
+        this.totalStudent = 0; // Mặc định khi tạo mới là 0
+        this.lectures = new ArrayList<>(); // Khởi tạo list rỗng để tránh null
+        this.students = new ArrayList<>();
+        
+    }
+
+     public Classes (Classes new_class) {
+        this.courseName = new_class.courseName;
+        this.courseCode = new_class.courseCode;
+        this.tutorName = new_class.tutorName;
+        this.tutorMSCB = new_class.tutorMSCB;
+        this.schedule = new_class.schedule;
+        this.students = new_class.students;
+        this.totalStudent = new_class.totalStudent;
+        this.lectures = new_class.lectures;
+        this.maxStudent= new_class.maxStudent;
+        this.term= new_class.term;
+        this.quizzes= new_class.quizzes;
+    }
+
     public Classes(Long id, String courseName, String courseCode,
-                 String tutorName, String tutorMSCB,
-                 List<Lich> lichHoc, List<Sinhvien> sinhViens) {
+                   String tutorName, String tutorMSCB,
+                   List<Lich> lichHoc, List<Sinhvien> sinhViens) {
 
         this.id = id;
         this.courseName = courseName;
@@ -26,10 +52,12 @@ public class Classes {
         this.tutorMSCB = tutorMSCB;
         this.schedule = lichHoc;
         this.students = sinhViens;
+        this.totalStudent = (sinhViens != null) ? sinhViens.size() : 0;
+        this.lectures = new ArrayList<>();
     }
 
     public Classes(Long id, String courseName, String courseCode, String tutorName, String tutorMSCB,
-                 List<Lecture> lectures, List<Quiz> quizzes, List<Lich> schedule, List<Sinhvien> students) {
+                   List<Lecture> lectures, List<Quiz> quizzes, List<Lich> schedule, List<Sinhvien> students) {
         this.id = id;
         this.courseName = courseName;
         this.courseCode = courseCode;
@@ -39,6 +67,17 @@ public class Classes {
         this.quizzes = quizzes;
         this.schedule = schedule;
         this.students = students;
+        this.totalStudent = (students != null) ? students.size() : 0;
+    }
+
+    // --- Helper Methods cho Frontend (Quan trọng) ---
+    
+    // Frontend gọi s.classId -> map vào id
+    public Long getClassId() { return id; }
+    
+    // Frontend gọi s.totalLecture -> tính từ list lectures
+    public int getTotalLecture() { 
+        return (lectures != null) ? lectures.size() : 0; 
     }
 
     // Getter & Setter
@@ -57,6 +96,17 @@ public class Classes {
     public String getTutorMSCB() { return tutorMSCB; }
     public void setTutorMSCB(String tutorMSCB) { this.tutorMSCB = tutorMSCB; }
 
+    // --- Getter & Setter cho các trường mới ---
+    public String getTerm() { return term; }
+    public void setTerm(String term) { this.term = term; }
+
+    public int getMaxStudent() { return maxStudent; }
+    public void setMaxStudent(int maxStudent) { this.maxStudent = maxStudent; }
+
+    public int getTotalStudent() { return totalStudent; }
+    public void setTotalStudent(int totalStudent) { this.totalStudent = totalStudent; }
+    // ------------------------------------------
+
     public List<Lecture> getLectures() { return lectures; }
     public void setLectures(List<Lecture> lectures) { this.lectures = lectures; }
 
@@ -67,5 +117,10 @@ public class Classes {
     public void setSchedule(List<Lich> schedule) { this.schedule = schedule; }
 
     public List<Sinhvien> getStudents() { return students; }
-    public void setStudents(List<Sinhvien> students) { this.students = students; }
+    public void setStudents(List<Sinhvien> students) { 
+        this.students = students;
+        if (students != null) {
+            this.totalStudent = students.size(); // Tự động cập nhật sĩ số
+        }
+    }
 }

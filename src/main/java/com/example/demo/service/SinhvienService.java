@@ -27,7 +27,7 @@ public class SinhvienService {
                 Map<String, String> cls = new HashMap<>();
                 cls.put("courseName", c.getCourseName());
                 cls.put("courseCode", c.getCourseCode());
-                cls.put("classId", c.getCourseCode().replaceAll("[()]", "")); // VD: (CO3001) → CO3001
+                cls.put("classId", String.valueOf(c.getId())); // VD: (CO3001) → CO3001
                 res.add(cls);
             }
         }

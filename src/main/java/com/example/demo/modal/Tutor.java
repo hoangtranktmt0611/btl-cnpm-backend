@@ -1,13 +1,13 @@
 package com.example.demo.modal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tutor extends User {
     private String name;      // họ tên
     private String email;
     private String mscb;      // mã số cán bộ
-    private List<Classes> classes; // danh sách lớp
-
+    private List<Classes> classes = new ArrayList<>(); // tránh null
     public Tutor() {}
 
     // constructor kế thừa User
@@ -32,4 +32,8 @@ public class Tutor extends User {
 
     public List<Classes> getClasses() { return classes; }
     public void setClasses(List<Classes> classes) { this.classes = classes; }
+    public void addClasses(Classes newClass) { this.classes.add(newClass);}
+    public int numClass() { 
+        return classes == null ? 0 : classes.size(); 
+    }
 }
